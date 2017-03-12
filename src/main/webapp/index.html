@@ -1,0 +1,141 @@
+<!doctype html>
+<html ng-app="comment">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Hello AngularJS</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script>
+        angular.module('comment', [])
+                .controller('CommentController',
+                function($scope, $http) {
+                    $scope.comments = [];
+
+                    $scope.form = {
+                        author : "",
+                        article : "",
+                        title : "",
+                        text : ""
+                    };
+                    $scope.form1 = {
+                        author : "",
+                        article : "",
+                        title : "",
+                        text : "",
+                        parent: ""
+                    };
+                    _refresh();
+
+                    $scope.processForm = function() {
+                        $scope.showTheForm1 = false;
+                        $scope.showTheForm = true;
+                    }
+
+                    $scope.postComment = function() {
+                        var method = 'POST';
+                        var url = 'http://localhost:8082/rest-data/comments/';
+                        $http({
+                            method : method,
+                            url : url,
+                            data : angular.toJson($scope.form),
+                            headers : {
+                                'Content-Type' : 'application/json'
+                            }
+                        });
+                        _cleanForm();
+                        _refresh();
+                    };
+
+                    $scope.postSubComment = function(comment) {
+                        var method = 'POST';
+                        var url = 'http://localhost:8082/rest-data/comments/';
+                        $scope.form1.parent = comment._links.self.href;
+                        $http({
+                            method : method,
+                            url : url,
+                            data : angular.toJson($scope.form1),
+                            headers : {
+                                'Content-Type' : 'application/json'
+                            }
+                        });
+                        _cleanForm1();
+                        _refresh();
+                    };
+
+
+                    function _cleanForm(){
+                        $scope.form = {
+                            author : "",
+                            article : "",
+                            title : "",
+                            text : ""
+                        };
+                    }
+
+                    function _cleanForm1(){
+                        $scope.form1 = {
+                            author : "",
+                            article : "",
+                            title : "",
+                            text : "",
+                            parent: ""
+                        };
+                    }
+
+                    function _refresh() {
+                        $http({
+                            method: 'GET',
+                            url: 'http://localhost:8082/rest-data/comments?sort=path'
+                        }).then(function successCallback(response) {
+                            $scope.comments = response.data._embedded.comments;
+                        });
+                    }
+                });
+    </script>
+</head>
+
+<body ng-controller="CommentController">
+
+<h3>Something about Spring</h3>
+This should be an intersting article. Try to comment
+and the reply. The angular js I used is pretty much my first try :). So don't be hard on me..
+First comment is not auto refreshed :D
+
+<div style="margin-left: 30px">
+<div width="600px">
+    <div ng-repeat="comment in comments" class="comment">
+        <div  style="margin-left: {{ (comment.path.length - 6)*3 }}px">
+        <h5><b>{{ comment.id }} {{ comment.title }}</b></h5>
+            <div>{{ comment.text }}</div>
+            <a ng-click="showTheForm1 = !showTheForm1">Reply</a>
+            <hr/>
+            <form ng-show="showTheForm1" ng-submit="postSubComment(comment)">
+                     Post an interesting reply:
+                    <div>
+                        <div><input ng-model="form1.author" placeholder="Author" type="text"></div>
+                        <div><input ng-model="form1.article" type="hidden" ng-init="form1.article = 1"></div>
+                        <div><input ng-model="form1.title" placeholder="Title" type="text"></div>
+                        <div><textarea ng-model="form1.text" placeholder="your reply"></textarea></div>
+                        <div><input type="submit" value="Post!"/></div>
+                    </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<br/>
+
+<a ng-click="showTheForm = !showTheForm">Comment</a>
+<form ng-show="showTheForm" ng-submit="postComment()">
+    Post a new and fresh comment:
+    <div>
+        <div><input ng-model="form.author" placeholder="Author" type="text"></div>
+        <div><input ng-model="form.article" type="hidden" value="1"></div>
+        <div><input ng-model="form.title" placeholder="Title" type="text"></div>
+        <div><textarea ng-model="form.text" placeholder="your comment"></textarea></div>
+        <div><input type="submit" value="Post!"/></div>
+    </div>
+</form>
+</div>
+</body>
+</html>
