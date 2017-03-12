@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
 @EnableSpringDataWebSupport
-//@EnableWebMvc // don't enable - otherwise webapp/index.html won't work as expected.
 @EnableHypermediaSupport(type = { EnableHypermediaSupport.HypermediaType.HAL })
 public class DemoApplication {
 

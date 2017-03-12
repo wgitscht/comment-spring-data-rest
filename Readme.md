@@ -14,10 +14,10 @@ java -jar target/comment-spring-data-rest-0.0.1-SNAPSHOT.jar
 ```
 
 Frontend:
-http://127.0.0.1:8082/
+http://localhost:8082/
 
 Use this url for spring rest data (the traverson browser is on the classpath)
-http://127.0.0.1:8082/rest-data/
+http://localhost:8082/rest-data/
 
 
 post a comment:
