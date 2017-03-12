@@ -78,7 +78,7 @@ angular.module('comment', [])
         function _refresh() {
             $http({
                 method: 'GET',
-                url: 'http://localhost:8082/rest-data/comments?sort=path'
+                url: 'rest-data/comments?sort=path'
             }).then(function successCallback(response) {
                 $scope.comments = response.data._embedded.comments;
             });
