@@ -1,6 +1,6 @@
 angular.module('comment', [])
     .controller('CommentController',
-    function($scope, $http) {
+    function($scope, $http,  $window) {
         $scope.comments = [];
 
         $scope.form = {
@@ -33,9 +33,7 @@ angular.module('comment', [])
                 headers : {
                     'Content-Type' : 'application/json'
                 }
-            }).then(_refresh());
-            _cleanForm();
-
+            }).then($window.location.reload());
         };
 
         $scope.postSubComment = function(comment) {
@@ -49,8 +47,7 @@ angular.module('comment', [])
                 headers : {
                     'Content-Type' : 'application/json'
                 }
-            }).then(_refresh());
-            _cleanForm1();
+            }).then($window.location.reload());
         };
 
         $scope.doRefresh = function() {
