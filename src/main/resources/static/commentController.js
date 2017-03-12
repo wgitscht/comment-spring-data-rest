@@ -26,7 +26,7 @@ angular.module('comment', [])
 
         $scope.postComment = function() {
             var method = 'POST';
-            var url = 'http://localhost:8082/rest-data/comments/';
+            var url = 'rest-data/comments/';
             $http({
                 method : method,
                 url : url,
@@ -39,7 +39,7 @@ angular.module('comment', [])
 
         $scope.postSubComment = function(comment) {
             var method = 'POST';
-            var url = 'http://localhost:8082/rest-data/comments/';
+            var url = 'rest-data/comments/';
             $scope.form1.parent = comment._links.self.href;
             $http({
                 method : method,
