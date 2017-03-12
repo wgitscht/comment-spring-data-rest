@@ -1,6 +1,7 @@
 angular.module('comment', [])
     .controller('CommentController',
     function($scope, $http,  $window) {
+        // this must be heavily refactored by someone with an idea about angular :)
         $scope.comments = [];
 
         $scope.form = {
