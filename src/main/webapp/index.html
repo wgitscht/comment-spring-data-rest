@@ -9,13 +9,15 @@
 
 <body ng-controller="CommentController">
 
+<div style="margin-left: 20px;width:600px">
+    <div >
 <h3>Something about Spring</h3>
-This should be an intersting article. Try to comment
-and the reply. The angular js I used is pretty much my first try :). So don't be hard on me..
+This should be an intresting article. Try to comment
+and then reply. The angular js I used is pretty much my first try :). So don't be hard on me..
 First comment is not auto refreshed :D
-
-<div style="margin-left: 30px">
-<div width="600px">
+</div>
+<div style="margin-left: 30px;width:600px">
+<div>
     <div ng-repeat="comment in comments" class="comment">
         <div  style="margin-left: {{ (comment.path.length - 6)*3 }}px">
         <h5><b>{{ comment.id }} {{ comment.title }}</b></h5>
@@ -39,7 +41,7 @@ First comment is not auto refreshed :D
 
 <br/>
 
-<a ng-click="showTheForm = !showTheForm">Comment</a>
+<a ng-click="showTheForm = !showTheForm">Comment</a> <a ng-click="doRefresh()">Refresh</a>
 <form ng-show="showTheForm" ng-submit="postComment()">
     Post a new and fresh comment:
     <div>

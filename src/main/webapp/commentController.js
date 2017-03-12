@@ -53,6 +53,10 @@ angular.module('comment', [])
             _cleanForm1();
         };
 
+        $scope.doRefresh = function() {
+            _refresh();
+        };
+
 
         function _cleanForm(){
             $scope.form = {
